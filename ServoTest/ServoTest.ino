@@ -1,21 +1,50 @@
-#include <Servo.h>
+#include <Servo.h> 
+int potentiometer=A0;
+int potval;
+int curval;
 
-#define MOTOR_PIN 9
-Servo motor;
-int potpin = 0;
-int val=0;
+
+
+Servo ESC;
 
 void setup() {
-  Serial.begin(9600);
-  motor.attach(MOTOR_PIN);
-  motor.writeMicroseconds(1000);
-  delay(5000);
+
+ 
+  //pinMode(potentiometer, INPUT);
+  ESC.attach(9);  
+  //ESC.setMinimumPulse(800);
+ // ESC.setMaximumPulse(2000);  
+  Serial.begin(9600);  
+  curval=0;
+  delay(100);
+  ESC.write(0);
 }
 
 void loop() {
-  val = analogRead(potpin);
-//val = map(val, 0, 1023, 0, 180);
-val= map(val, 830, 1023,1000,2500);
-Serial.println(val);
-motor.writeMicroseconds(val);
+
+  potval=analogRead(potentiometer);
+  potval=map(potval,827,1010,0,2000);
+  
+  while(curval<potval){
+    potval=analogRead(potentiometer);
+    potval=map(potval,827,1015,0,2000);
+    curval=curval+2;
+    ESC.write(curval);
+    //SoftwareServo::refresh();
+    Serial.println(curval);
+    delay(0);}
+
+  while(curval>potval){
+    potval=analogRead(potentiometer);
+    potval=map(potval,827,1010,0,2000);
+    curval=curval-2;
+    ESC.write(curval);
+    //SoftwareServo::refresh();
+    Serial.println(curval);
+    delay(0);}
+
+    ESC.write(curval);
+    //SoftwareServo::refresh();
+    Serial.println(curval);
 }
+
