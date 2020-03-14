@@ -3,23 +3,22 @@ int potentiometer=A0;
 int potval;
 int curval;
 boolean shift;
-
-
+boolean shift2;
 
 SoftwareServo ESC;
 
 void setup() {
 
- 
   pinMode(potentiometer, INPUT);
   ESC.attach(9);  
   ESC.setMinimumPulse(800);
   ESC.setMaximumPulse(2000);  
-  Serial.begin(9600);  
+  //Serial.begin(9600);  
   curval=0;
   delay(100);
   ESC.write(0);
   shift = false;
+  shift2 = false;
 }
 
 void loop() {
@@ -36,21 +35,25 @@ void loop() {
         shift = true;
       }
       else{
-        shift = false;
+        if(shift2 == false){
+          shift2 = true;
+        }
+        else{
+          shift2 = false;
+          shift = false;
+        }
       }
     }
     else{
       curval=curval+1;
     }
-    if(curval<0-){
+    if(curval<0){
       curval=0;
     }
     
     ESC.write(curval);
-    //ESC.write(potval);
     SoftwareServo::refresh();
-    Serial.println(curval);
-    //Serial.println(potval);
+    //Serial.println(curval);
     delay(20);}
 
   while(curval>potval){
@@ -61,16 +64,8 @@ void loop() {
       curval=0;
     }
     ESC.write(curval);
-    //ESC.write(potval);
     SoftwareServo::refresh();
-    Serial.println(curval);
-    //Serial.println(potval);
-    delay(0);}
-
-    //ESC.write(curval);
-    //ESC.write(potval);
-    //SoftwareServo::refresh();
     //Serial.println(curval);
-    //Serial.println(potval);
+    delay(0);}
 }
 

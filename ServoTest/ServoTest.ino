@@ -1,18 +1,18 @@
-#include <Servo.h>
- 
-Servo esc;
-int throttlePin = A1;
- 
+#include <Servo.h>//Using servo library to control ESC
+Servo esc; //Creating a servo class with name as esc
 void setup()
 {
-esc.attach(9);
+esc.attach(8); //Specify the esc signal pin,Here as D8
+esc.writeMicroseconds(1000); //initialize the signal to 1000
 Serial.begin(9600);
 }
- 
 void loop()
 {
-int throttle = analogRead(throttlePin);
-throttle = map(throttle, 0, 1023, 0, 179);
-esc.write(throttle);
-Serial.println(throttle);
+int val; //Creating a variable val
+int value;
+val= analogRead(A0); //Read input from analog pin a0 and store in val
+value = analogRead(A0);
+val= map(val, 20, 230,1000,2000); //mapping val to minimum and maximum(Change if needed) 
+esc.writeMicroseconds(val); //using val as the signal to esc
+Serial.println(val);
 }

@@ -1,8 +1,8 @@
-#include <Manchester.h>
+#include "Manchester.h" //https://github.com/cano64/ManchesterRF
 
-#define TX_PIN 9 //any pin can transmit
+#define TX_PIN 0 //any pin can transmit
 
-int potentiometer=A0;
+int potentiometer=3;
 int potval;
 int curval;
 boolean shift;
@@ -12,7 +12,7 @@ uint8_t data = 0;
 
 void setup() {
 
-  
+  //Serial.begin(9600);
   pinMode(potentiometer, INPUT);
   man.setupTransmit(TX_PIN, MAN_1200);
   curval=0;
@@ -44,6 +44,7 @@ void loop() {
     
   data = (byte)curval;
   man.transmit(data);
+  //Serial.println(data);
   delay(30);
   }
 
@@ -57,6 +58,7 @@ void loop() {
   
   data = (uint8_t)curval;
   man.transmit(data);
+  //Serial.println(String(data));
   delay(30);
   }
 }
