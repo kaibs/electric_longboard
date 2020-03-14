@@ -2,7 +2,7 @@
 
 #define TX_PIN 0 //any pin can transmit
 
-int potentiometer=3;
+
 int potval;
 int curval;
 boolean shift;
@@ -13,18 +13,18 @@ uint8_t data = 0;
 void setup() {
 
   //Serial.begin(9600);
-  pinMode(potentiometer, INPUT);
+  //man.workAround1MhzTinyCore();
   man.setupTransmit(TX_PIN, MAN_1200);
   curval=0;
   shift = false;
 }
 
 void loop() {
-  potval=analogRead(potentiometer);
+  potval=analogRead(2);
   potval=map(potval,827,1010,0,179);
   
   while(curval<potval){
-    potval=analogRead(potentiometer);
+    potval=analogRead(2);
     potval=map(potval,827,1010,0,179);
     if(curval<90){
       if(shift == false){
@@ -49,7 +49,7 @@ void loop() {
   }
 
   while(curval>potval){
-    potval=analogRead(potentiometer);
+    potval=analogRead(2);
     potval=map(potval,827,1010,0,179);
     curval=curval-2;
     if(curval<0){
